@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact Directory</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Contact Directory</h1>
+
+    <div class="top">
+      <input id="search" placeholder="Search by name..." />
+      <button id="newBtn">New Contact</button>
+    </div>
+
+    <div id="formWrap" class="hidden">
+      <form id="contactForm">
+        <input type="hidden" id="contactId" />
+        <label>Name<input id="name" required /></label>
+        <label>Email<input id="email" type="email" /></label>
+        <label>Phone<input id="phone" /></label>
+        <label>Notes<textarea id="notes"></textarea></label>
+        <label>Icon<input id="icon" type="file" accept="image/*" /></label>
+        <div class="form-actions">
+          <button type="submit">Save</button>
+          <button type="button" id="cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <ul id="contacts"></ul>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
