@@ -355,3 +355,93 @@ input:focus, textarea:focus {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* --- style.css --- */
+
+/* 1. IMPROVED CONTACT CARD VISUALS */
+.contact-item {
+  background: white;
+  border-radius: var(--radius);
+  /* Add a subtle outline and deeper shadow */
+  border: 2px solid #eef2f5;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  padding: 25px;
+  text-align: center;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative; /* Needed for checkbox positioning */
+}
+
+/* Make the card "lift" and outline highlight on hover */
+.contact-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 24px rgba(74, 144, 226, 0.15);
+}
+
+/* 2. PROMINENT PROFILE PICTURES */
+.contact-avatar {
+  /* Increase size from 80px to 110px */
+  width: 110px;
+  height: 110px;
+  background: #f0f2f5;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  overflow: hidden;
+  /* Add a double-border effect to make it stand out */
+  border: 4px solid white;
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* 3. STYLES FOR NEW CONTROLS (Sort & Bulk Delete) */
+.controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  align-items: center;
+  background: white;
+  padding: 15px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.search-wrapper { flex-grow: 1; min-width: 250px; }
+.sort-wrapper { min-width: 150px; }
+
+/* Styling the select dropdown */
+.select-control {
+  width: 100%;
+  padding: 10px 15px;
+  border: 2px solid #eef2f5;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: white;
+}
+.select-control:focus { outline: none; border-color: var(--primary); }
+
+/* Bulk Actions Area */
+.bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 15px;
+  border-left: 2px solid #eee;
+}
+
+/* The checkbox on the card */
+.contact-select-cb {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  transform: scale(1.3); /* Make checkbox bigger */
+  cursor: pointer;
+  z-index: 2;
+}
