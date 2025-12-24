@@ -3,285 +3,102 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Secure Contact Directory</title>
-  <link rel="stylesheet" href="/style.css" />
+  <title>My Contacts</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <!-- Login Screen -->
-  <div id="loginScreen" class="screen">
-    <div class="login-container">
-      <div class="login-box">
-        <div class="login-icon">🔐</div>
-        <h1>Contact Directory</h1>
-        <p class="subtitle">Secure Login Portal</p>
-        
-        <form id="loginForm">
-          <div class="input-group">
-            <label for="loginUsername">Username</label>
-            <input id="loginUsername" type="text" required autocomplete="username" placeholder="Enter username" />
-          </div>
-          
-          <div class="input-group">
-            <label for="loginPassword">Password</label>
-            <input id="loginPassword" type="password" required autocomplete="current-password" placeholder="Enter password" />
-          </div>
-          
-          <button type="submit" class="btn-primary btn-block">Login</button>
-        </form>
-        
-        <div id="loginError" class="login-error hidden"></div>
-        
-        <div class="login-footer">
-          <small>🔒 Secure authentication required</small>
-        </div>
+<body class="page-dashboard">
+  
+  <div class="navbar">
+    <div class="navbar-brand">
+      <span class="brand-icon">📇</span>
+      <span class="brand-text">Directory<span class="text-primary">Hub</span></span>
+    </div>
+    <div class="navbar-menu">
+      <div class="user-info">
+        <span class="user-icon">👤</span>
+        <span id="navUsername" class="username">Loading...</span>
+        <span id="navRole" class="role-badge"></span>
       </div>
+      <a href="admin.html" id="navAdminBtn" class="btn-admin hidden">
+        <span>⚙️</span> Admin
+      </a>
+      <button id="navLogoutBtn" class="btn-logout">
+        <span>🚪</span> Logout
+      </button>
     </div>
   </div>
 
-  <!-- Contact Directory (Users & Admins) -->
-  <div id="contactScreen" class="screen hidden">
-    <div class="navbar">
-      <div class="navbar-brand">
-        <span class="brand-icon">📇</span>
-        <span class="brand-text">Contact Directory</span>
+  <div class="container">
+    <div class="page-header">
+      <div class="header-content">
+        <h1>My Contacts</h1>
+        <p class="page-subtitle">Manage your personal and professional network</p>
       </div>
-      <div class="navbar-menu">
-        <div class="user-info">
-          <span class="user-icon">👤</span>
-          <span id="navUsername" class="username"></span>
-          <span id="navRole" class="role-badge"></span>
-        </div>
-        <button id="navAdminBtn" class="btn-admin hidden">
-          <span>⚙️</span> Admin Panel
-        </button>
-        <button id="navLogoutBtn" class="btn-logout">
-          <span>🚪</span> Logout
-        </button>
+      <button id="newBtn" class="btn-primary">
+        <span>➕</span> New Contact
+      </button>
+    </div>
+
+    <div id="contactMessage" class="message hidden"></div>
+
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input id="search" type="text" placeholder="Search contacts by name, email, or phone..." />
       </div>
     </div>
 
-    <div class="container">
-      <div class="page-header">
-        <h1>My Contacts</h1>
-        <p class="page-subtitle">Manage your personal and professional contacts</p>
-      </div>
-
-      <div id="contactMessage" class="message hidden"></div>
-
-      <div class="search-bar">
-        <div class="search-input-wrapper">
-          <span class="search-icon">🔍</span>
-          <input id="search" type="text" placeholder="Search contacts by name..." />
-        </div>
-        <button id="newBtn" class="btn-primary">
-          <span>➕</span> New Contact
-        </button>
-      </div>
-
-      <div id="formWrap" class="form-card hidden">
+    <div id="formWrap" class="modal hidden">
+      <div class="modal-content form-card">
         <div class="form-header">
           <h3 id="formTitle">Contact Details</h3>
-          <button type="button" id="closeFormBtn" class="btn-icon" title="Close">✕</button>
+          <button type="button" id="closeFormBtn" class="btn-icon">✕</button>
         </div>
         
         <form id="contactForm">
           <input type="hidden" id="contactId" />
-          
           <div class="form-grid">
             <div class="form-group full-width">
-              <label for="name">Full Name *</label>
-              <input id="name" type="text" required placeholder="John Doe" />
+              <label>Full Name *</label>
+              <input id="name" type="text" required placeholder="Ex: John Doe" />
             </div>
-            
             <div class="form-group">
-              <label for="email">Email Address</label>
+              <label>Email</label>
               <input id="email" type="email" placeholder="john@example.com" />
             </div>
-            
             <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input id="phone" type="tel" placeholder="+1 (555) 123-4567" />
+              <label>Phone</label>
+              <input id="phone" type="tel" placeholder="+1 (555) 000-0000" />
             </div>
-            
             <div class="form-group full-width">
-              <label for="notes">Notes</label>
-              <textarea id="notes" rows="3" placeholder="Additional information..."></textarea>
+              <label>Notes</label>
+              <textarea id="notes" placeholder="Add extra details here..."></textarea>
             </div>
-            
             <div class="form-group full-width">
-              <label for="icon">Profile Picture (max 200KB)</label>
+              <label>Profile Picture</label>
               <input id="icon" type="file" accept="image/*" />
-              <small class="help-text">Supported formats: JPG, PNG, GIF</small>
             </div>
           </div>
-          
           <div class="form-actions">
-            <button type="submit" class="btn-primary">
-              <span>💾</span> Save Contact
-            </button>
+            <button type="submit" class="btn-primary">Save Changes</button>
             <button type="button" id="cancelFormBtn" class="btn-secondary">Cancel</button>
           </div>
         </form>
       </div>
+    </div>
 
-      <div id="contactsList">
-        <ul id="contacts"></ul>
-        <div id="emptyState" class="empty-state hidden">
-          <div class="empty-icon">📭</div>
-          <h3>No contacts yet</h3>
-          <p>Start by adding your first contact</p>
-          <button id="emptyAddBtn" class="btn-primary">Add Contact</button>
-        </div>
+    <div id="contactsList">
+      <ul id="contacts" class="contact-grid"></ul>
+      
+      <div id="emptyState" class="empty-state hidden">
+        <div class="empty-icon">📭</div>
+        <h3>No contacts found</h3>
+        <p>Your list is empty. Add a new contact to get started!</p>
+        <button id="emptyAddBtn" class="btn-primary">Add Contact</button>
       </div>
     </div>
   </div>
 
-  <!-- Admin Panel (Admins Only) -->
-  <div id="adminScreen" class="screen hidden">
-    <div class="navbar navbar-admin">
-      <div class="navbar-brand">
-        <span class="brand-icon">⚙️</span>
-        <span class="brand-text">Admin Panel</span>
-      </div>
-      <div class="navbar-menu">
-        <div class="user-info">
-          <span class="user-icon">👤</span>
-          <span id="adminUsername" class="username"></span>
-          <span class="role-badge admin">ADMIN</span>
-        </div>
-        <button id="backToContactsBtn" class="btn-secondary">
-          <span>📇</span> Back to Contacts
-        </button>
-        <button id="adminLogoutBtn" class="btn-logout">
-          <span>🚪</span> Logout
-        </button>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="page-header">
-        <h1>System Administration</h1>
-        <p class="page-subtitle">User management and system controls</p>
-      </div>
-
-      <div id="adminMessage" class="message hidden"></div>
-
-      <!-- User Management Section -->
-      <div class="admin-card">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">👥</span>
-            <h2>User Management</h2>
-          </div>
-          <div class="card-actions">
-            <button id="refreshUsersBtn" class="btn-icon-text" title="Refresh">
-              <span>🔄</span> Refresh
-            </button>
-          </div>
-        </div>
-        
-        <div class="table-container">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Created Date</th>
-                <th class="text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="usersTableBody">
-              <tr>
-                <td colspan="4" class="text-center loading-cell">
-                  <div class="spinner"></div>
-                  <span>Loading users...</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Create User Section -->
-      <div class="admin-card">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="card-icon">➕</span>
-            <h2>Create New User</h2>
-          </div>
-        </div>
-        
-        <form id="registerForm" class="register-form">
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="regUsername">Username *</label>
-              <input id="regUsername" type="text" required minlength="3" placeholder="Enter username (min 3 characters)" />
-            </div>
-            
-            <div class="form-group">
-              <label for="regPassword">Password *</label>
-              <input id="regPassword" type="password" required minlength="6" placeholder="Enter password (min 6 characters)" />
-            </div>
-            
-            <div class="form-group">
-              <label for="regRole">Role *</label>
-              <select id="regRole" required>
-                <option value="">Select role...</option>
-                <option value="user">User - Basic access to contacts</option>
-                <option value="admin">Admin - Full system access</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="form-actions">
-            <button type="submit" class="btn-primary">
-              <span>✅</span> Create User
-            </button>
-            <button type="reset" class="btn-secondary">Clear Form</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- System Statistics -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">👥</div>
-          <div class="stat-content">
-            <div class="stat-label">Total Users</div>
-            <div class="stat-value" id="statTotalUsers">-</div>
-          </div>
-        </div>
-        
-        <div class="stat-card">
-          <div class="stat-icon">👤</div>
-          <div class="stat-content">
-            <div class="stat-label">Regular Users</div>
-            <div class="stat-value" id="statRegularUsers">-</div>
-          </div>
-        </div>
-        
-        <div class="stat-card">
-          <div class="stat-icon">⚙️</div>
-          <div class="stat-content">
-            <div class="stat-label">Administrators</div>
-            <div class="stat-value" id="statAdmins">-</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Access Denied Modal -->
-  <div id="accessDeniedModal" class="modal hidden">
-    <div class="modal-content access-denied">
-      <div class="modal-icon">🚫</div>
-      <h2>Access Denied</h2>
-      <p>You do not have permission to access the Admin Panel.</p>
-      <p class="text-muted">This area is restricted to administrators only.</p>
-      <button id="closeAccessDeniedBtn" class="btn-primary">OK</button>
-    </div>
-  </div>
-
-  <script src="/app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

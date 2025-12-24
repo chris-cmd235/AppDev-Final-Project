@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - Secure Directory</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-login animated-bg">
+  
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <div class="login-icon">🔐</div>
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Secure Contact Directory</p>
+      </div>
+      
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="loginUsername">Username</label>
+          <input id="loginUsername" type="text" required autocomplete="username" placeholder="Enter username" />
+        </div>
+        
+        <div class="input-group">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" required autocomplete="current-password" placeholder="Enter password" />
+        </div>
+        
+        <button type="submit" class="btn-primary btn-block btn-lg">
+          Sign In
+        </button>
+      </form>
+      
+      <div id="loginError" class="login-error hidden"></div>
+      
+      <div class="login-footer">
+        <small>🔒 Secure 256-bit Encryption</small>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

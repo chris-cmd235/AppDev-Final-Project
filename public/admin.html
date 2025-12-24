@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Panel - System Control</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-admin">
+  
+  <div class="navbar navbar-admin">
+    <div class="navbar-brand">
+      <span class="brand-icon">🛡️</span>
+      <span class="brand-text">Admin<span class="text-light">Panel</span></span>
+    </div>
+    <div class="navbar-menu">
+      <div class="user-info">
+        <span class="user-icon">👤</span>
+        <span id="adminUsername" class="username">Loading...</span>
+        <span class="role-badge admin">SUPERUSER</span>
+      </div>
+      <a href="index.html" class="btn-secondary">
+        <span>↩️</span> Back to Hub
+      </a>
+      <button id="adminLogoutBtn" class="btn-logout">
+        <span>🚪</span> Logout
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>System Administration</h1>
+      <p class="page-subtitle">Manage users, roles, and system security.</p>
+    </div>
+
+    <div id="adminMessage" class="message hidden"></div>
+
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <div class="stat-value" id="statTotalUsers">0</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+          <div class="stat-value" id="statRegularUsers">0</div>
+          <div class="stat-label">Active Standard Users</div>
+        </div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-icon">🛡️</div>
+        <div class="stat-info">
+          <div class="stat-value" id="statAdmins">0</div>
+          <div class="stat-label">Administrators</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-layout">
+      <div class="admin-card create-user-card">
+        <div class="card-header">
+          <h3><span>⚡</span> Quick Create</h3>
+        </div>
+        <form id="registerForm">
+          <div class="form-group">
+            <label>Username</label>
+            <input id="regUsername" type="text" required placeholder="New username" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input id="regPassword" type="password" required placeholder="Password" />
+          </div>
+          <div class="form-group">
+            <label>Role</label>
+            <select id="regRole" required>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary btn-block">Create User</button>
+        </form>
+      </div>
+
+      <div class="admin-card user-list-card">
+        <div class="card-header">
+          <h3><span>📋</span> User Database</h3>
+          <button id="refreshUsersBtn" class="btn-icon-text">🔄 Refresh</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

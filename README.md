@@ -1,17 +1,15 @@
-# Contact Directory (Basic)
+# Secure Contact Directory (v2.0)
 
-Simple CRUD address book with REST API and optional small profile icons.
+A secure, multi-page contact management system with Role-Based Access Control (RBAC).
 
-Run locally:
+## Features
+- **Multi-page Architecture**: Separate login, dashboard, and admin interfaces.
+- **Security**: JWT Authentication, bcrypt password hashing, and protected routes.
+- **Admin Panel**: Manage users and view system statistics (Admin role only).
+- **File Uploads**: Image support for contact profiles.
 
-```bash
-npm install
-npm start
-```
+## Setup
 
-Open http://localhost:3000
-
-Notes:
-- API endpoints under `/api/contacts`
-- File uploads are saved to `/uploads` and limited to ~200KB
-- Data stored in `db.json` in the project root
+1. **Install Dependencies**
+   ```bash
+   npm install
