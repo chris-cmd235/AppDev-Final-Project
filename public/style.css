@@ -447,3 +447,33 @@ input:focus, textarea:focus {
 
 /* Adjust hidden class to be sure */
 .hidden { display: none !important; }
+
+/* Add to public/style.css */
+
+.contact-description {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #eee;
+  width: 100%;
+  text-align: left;
+}
+
+.contact-description small {
+  color: var(--secondary);
+  font-weight: bold;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.contact-description p {
+  font-size: 0.9rem;
+  color: #555;
+  background: #f8f9fa;
+  padding: 8px;
+  border-radius: 6px;
+  margin: 0;
+  white-space: pre-wrap; /* Preserves line breaks if user hit enter in notes */
+  word-break: break-word;
+}

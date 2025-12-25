@@ -261,6 +261,14 @@ function renderContacts(contacts) {
           ${c.email ? `<span>📧 ${escapeHtml(c.email)}</span>` : ''}
           ${c.phone ? `<span>📱 ${escapeHtml(c.phone)}</span>` : ''}
         </div>
+        
+        ${c.notes ? `
+          <div class="contact-description">
+            <small>📝 Notes:</small>
+            <p>${escapeHtml(c.notes)}</p>
+          </div>
+        ` : ''}
+        
       </div>
       <div class="contact-actions">
         <button class="btn-icon-text btn-edit">✏️ Edit</button>
