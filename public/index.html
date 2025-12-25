@@ -41,10 +41,21 @@
 
     <div id="contactMessage" class="message hidden"></div>
 
-    <div class="search-bar">
-      <div class="search-input-wrapper">
-        <span class="search-icon">🔍</span>
-        <input id="search" type="text" placeholder="Search contacts by name, email, or phone..." />
+<div class="controls-bar" style="justify-content: space-between;">
+      <div class="search-wrapper" style="flex-grow: 2;">
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input id="search" type="text" placeholder="Filter by name, email, phone..." />
+        </div>
+      </div>
+
+      <div class="sort-wrapper">
+        <select id="sortBy" class="select-control">
+          <option value="newest">Sort: Newest First</option>
+          <option value="oldest">Sort: Oldest First</option>
+          <option value="az">Sort: A-Z</option>
+          <option value="za">Sort: Z-A</option>
+        </select>
       </div>
     </div>
 

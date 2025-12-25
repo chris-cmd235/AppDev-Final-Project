@@ -12,24 +12,44 @@
     <div class="login-box">
       <div class="login-header">
         <div class="login-icon">🔐</div>
-        <h1>Welcome Back</h1>
+        <h1 id="pageTitle">Welcome Back</h1>
         <p class="subtitle">Secure Contact Directory</p>
       </div>
       
       <form id="loginForm">
         <div class="input-group">
-          <label for="loginUsername">Username</label>
+          <label>Username</label>
           <input id="loginUsername" type="text" required autocomplete="username" placeholder="Enter username" />
         </div>
         
         <div class="input-group">
-          <label for="loginPassword">Password</label>
+          <label>Password</label>
           <input id="loginPassword" type="password" required autocomplete="current-password" placeholder="Enter password" />
         </div>
         
-        <button type="submit" class="btn-primary btn-block btn-lg">
-          Sign In
-        </button>
+        <button type="submit" class="btn-primary btn-block btn-lg">Sign In</button>
+        
+        <div class="form-footer-link">
+          <p>Don't have an account? <a href="#" id="showSignup">Create one</a></p>
+        </div>
+      </form>
+
+      <form id="signupForm" class="hidden">
+        <div class="input-group">
+          <label>Choose Username</label>
+          <input id="signupUsername" type="text" required placeholder="Min 3 chars" />
+        </div>
+        
+        <div class="input-group">
+          <label>Choose Password</label>
+          <input id="signupPassword" type="password" required placeholder="Min 6 chars" />
+        </div>
+        
+        <button type="submit" class="btn-primary btn-block btn-lg" style="background-color: var(--success);">Create Account</button>
+        
+        <div class="form-footer-link">
+          <p>Already have an account? <a href="#" id="showLogin">Sign In</a></p>
+        </div>
       </form>
       
       <div id="loginError" class="login-error hidden"></div>

@@ -427,21 +427,23 @@ input:focus, textarea:focus {
 }
 .select-control:focus { outline: none; border-color: var(--primary); }
 
-/* Bulk Actions Area */
-.bulk-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-left: 15px;
-  border-left: 2px solid #eee;
+/* Add to your existing style.css */
+
+.form-footer-link {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: var(--secondary);
 }
 
-/* The checkbox on the card */
-.contact-select-cb {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  transform: scale(1.3); /* Make checkbox bigger */
-  cursor: pointer;
-  z-index: 2;
+.form-footer-link a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bold;
 }
+
+.form-footer-link a:hover {
+  text-decoration: underline;
+}
+
+/* Adjust hidden class to be sure */
+.hidden { display: none !important; }
