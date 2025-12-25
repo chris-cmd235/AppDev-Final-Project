@@ -196,7 +196,6 @@ function initDashboard() {
   
   // Form Listeners
   $id('newBtn').addEventListener('click', () => openForm(null));
-  $id('emptyAddBtn').addEventListener('click', () => openForm(null));
   $id('closeFormBtn').addEventListener('click', closeForm);
   $id('cancelFormBtn').addEventListener('click', closeForm);
   $id('contactForm').addEventListener('submit', handleContactSubmit);
