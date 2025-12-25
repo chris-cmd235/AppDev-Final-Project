@@ -105,6 +105,35 @@ function requireAdmin(req, res, next) {
   next();
 }
 
+// === VALIDATION MIDDLEWARE (NEW) ===
+function validateContact(req, res, next) {
+  const { name, email, phone } = req.body;
+  
+  // 1. Name Check
+  if (!name || name.trim().length === 0) {
+    return res.status(400).json({ error: 'Name is required' });
+  }
+  
+  // 2. Email Check
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: 'Invalid email format' });
+  }
+  
+  // 3. Strict Philippine Mobile Number Check
+  if (phone) {
+    // Regex: Start with 09 (followed by 9 digits) OR +63 (followed by 10 digits)
+    const phMobileRegex = /^(09\d{9}|\+63\d{10})$/;
+    
+    if (!phMobileRegex.test(phone)) {
+      return res.status(400).json({ 
+        error: 'Invalid Phone. Must be 09xxxxxxxxx (11 digits) or +639xxxxxxxxx (13 chars).' 
+      });
+    }
+  }
+  
+  next();
+}
+
 // === ROUTES ===
 
 // 1. PUBLIC SIGN UP (New)
@@ -179,10 +208,10 @@ app.get('/api/contacts', authenticateToken, (req, res) => {
   });
 });
 
-app.post('/api/contacts', authenticateToken, upload.single('icon'), (req, res) => {
+// ADDED validateContact HERE
+app.post('/api/contacts', authenticateToken, upload.single('icon'), validateContact, (req, res) => {
   const { name, email, phone, notes } = req.body;
-  if (!name) return res.status(400).json({ error: 'Name required' });
-
+  
   let ownerId = req.user.id;
   // If Admin is impersonating, create contact for the target user
   if (req.user.role === 'admin' && req.body.targetUserId) {
@@ -201,7 +230,8 @@ app.post('/api/contacts', authenticateToken, upload.single('icon'), (req, res) =
   );
 });
 
-app.put('/api/contacts/:id', authenticateToken, upload.single('icon'), (req, res) => {
+// ADDED validateContact HERE
+app.put('/api/contacts/:id', authenticateToken, upload.single('icon'), validateContact, (req, res) => {
   const { name, email, phone, notes } = req.body;
   // Simplified: Allow edit if you own it OR if you are admin
   const updates = [name, email, phone, notes];

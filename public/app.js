@@ -29,19 +29,16 @@ async function initPage() {
 
     // Routing Logic
     if (isLoginPage) {
-      // Redirect based on role
       if (currentUser.role === 'admin') window.location.href = 'admin.html';
       else window.location.href = 'index.html';
       return;
     }
 
-    // Admin Restrictions
     if (isAdminPage && currentUser.role !== 'admin') {
       window.location.href = 'index.html';
       return;
     }
 
-    // Dashboard Access: Admin cannot be here UNLESS impersonating
     if (isDashboard && currentUser.role === 'admin' && !impersonateId) {
       alert("Admins must access the dashboard via the User List.");
       window.location.href = 'admin.html';
@@ -66,7 +63,7 @@ async function verifyAuth() {
 
 function logout() {
   localStorage.removeItem('authToken');
-  stopImpersonating(); // Clear impersonation data too
+  stopImpersonating(); 
   window.location.href = 'login.html';
 }
 
@@ -77,17 +74,13 @@ function stopImpersonating() {
 }
 
 function setupUI() {
-  const navUsername = $id('navUsername');
+  const usernameLabel = $id('navUsername') || $id('adminUsername');
   const navRole = $id('navRole');
   const navAdminBtn = $id('navAdminBtn');
   
-  // Update Navbar Info
-  if (navUsername) {
-    if (impersonateId && impersonateName) {
-      // Show who we are viewing as
-      navUsername.innerHTML = `<span style="color:yellow">Viewing: ${impersonateName}</span>`;
-      
-      // Add a "Stop" button to navbar if not exists
+  if (usernameLabel) {
+    if ($id('navUsername') && impersonateId && impersonateName) {
+      usernameLabel.innerHTML = `<span style="color: #333; font-weight: bold;">Viewing: ${impersonateName}</span>`;
       if (!$id('stopImpBtn')) {
         const btn = document.createElement('button');
         btn.id = 'stopImpBtn';
@@ -97,7 +90,7 @@ function setupUI() {
         document.querySelector('.navbar-menu').prepend(btn);
       }
     } else {
-      navUsername.textContent = currentUser.username;
+      usernameLabel.textContent = currentUser.username;
     }
   }
 
@@ -118,7 +111,6 @@ function setupUI() {
 // ==================== LOGIN / SIGNUP LOGIC ====================
 
 function setupLoginUI() {
-  // Toggle Forms
   $id('showSignup').onclick = (e) => {
     e.preventDefault();
     $id('loginForm').classList.add('hidden');
@@ -133,7 +125,6 @@ function setupLoginUI() {
     $id('pageTitle').textContent = 'Welcome Back';
   };
 
-  // Login Submit
   $id('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('button');
@@ -153,7 +144,6 @@ function setupLoginUI() {
 
       if (res.ok) {
         localStorage.setItem('authToken', data.token);
-        // Redirect logic handled by initPage on reload/next check
         if (data.user.role === 'admin') window.location.href = 'admin.html';
         else window.location.href = 'index.html';
       } else {
@@ -168,7 +158,6 @@ function setupLoginUI() {
     }
   });
 
-  // Signup Submit
   $id('signupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('button');
@@ -201,27 +190,22 @@ function setupLoginUI() {
 function initDashboard() {
   fetchContactsData();
   
-  // Keep these two:
+  // Sorting and Filter Listeners
   $id('search').addEventListener('input', applyControls);
   $id('sortBy').addEventListener('change', applyControls);
-
-  // --- DELETE THESE TWO LINES ---
-  // $id('selectAllCb').addEventListener('change', handleSelectAll);
-  // $id('btnDeleteSelected').addEventListener('click', handleBulkDelete);
-  // ------------------------------
   
-  // Keep the form listeners...
+  // Form Listeners
   $id('newBtn').addEventListener('click', () => openForm(null));
-  // ... rest of initDashboard ...
+  $id('emptyAddBtn').addEventListener('click', () => openForm(null));
+  $id('closeFormBtn').addEventListener('click', closeForm);
+  $id('cancelFormBtn').addEventListener('click', closeForm);
+  $id('contactForm').addEventListener('submit', handleContactSubmit);
 }
 
 async function fetchContactsData() {
   try {
     let url = '/contacts';
-    // If admin is impersonating, add Query Param
-    if (impersonateId) {
-      url += `?targetUserId=${impersonateId}`;
-    }
+    if (impersonateId) url += `?targetUserId=${impersonateId}`;
 
     const res = await fetch(api(url), { headers: getAuthHeaders() });
     if (!res.ok) throw new Error();
@@ -259,7 +243,6 @@ function renderContacts(contacts) {
   const list = $id('contacts');
   const empty = $id('emptyState');
   list.innerHTML = '';
-  // DELETE THIS LINE: $id('selectAllCb').checked = false;
 
   if (contacts.length === 0) {
     empty.classList.remove('hidden');
@@ -270,7 +253,6 @@ function renderContacts(contacts) {
   contacts.forEach(c => {
     const li = document.createElement('li');
     li.className = 'contact-item';
-    // UPDATE innerHTML: Remove the <input type="checkbox" ...> line at the start
     li.innerHTML = `
       <div class="contact-avatar">${c.icon ? `<img src="${c.icon}">` : c.name[0]}</div>
       <div class="contact-info">
@@ -287,10 +269,8 @@ function renderContacts(contacts) {
     `;
     li.querySelector('.btn-edit').onclick = () => openForm(c);
     li.querySelector('.btn-delete').onclick = () => deleteContact(c);
-    // DELETE THIS LINE: li.querySelector('.contact-select-cb').addEventListener('change', updateBulkActionState);
     list.appendChild(li);
   });
-  // DELETE THIS LINE: updateBulkActionState();
 }
 
 // Form Handlers
@@ -324,13 +304,17 @@ async function handleContactSubmit(e) {
   if (notes) formData.append('notes', notes);
   if (iconInput.files[0]) formData.append('icon', iconInput.files[0]);
 
-  // Pass targetUserId if impersonating
   if (impersonateId) {
     formData.append('targetUserId', impersonateId);
   }
 
   const method = id ? 'PUT' : 'POST';
   const url = id ? api(`/contacts/${id}`) : api('/contacts');
+
+  const btn = e.target.querySelector('button[type="submit"]');
+  const originalText = btn.textContent;
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
 
   try {
     const res = await fetch(url, {
@@ -346,7 +330,12 @@ async function handleContactSubmit(e) {
       const data = await res.json();
       alert('Error: ' + data.error);
     }
-  } catch (err) { alert('Connection Error'); }
+  } catch (err) { 
+    alert('Connection Error'); 
+  } finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
 }
 
 async function deleteContact(c) {
@@ -390,17 +379,13 @@ function renderUsers(users) {
           <span>${escapeHtml(u.username)}</span>
         </div>
       </td>
-      
       <td><span class="role-badge ${u.role}">${u.role}</span></td>
-      
       <td>${new Date(u.created_at).toLocaleDateString()}</td>
-      
       <td>
         <div style="display:flex; gap:10px; align-items:center;">
           ${u.role !== 'admin' ? 
             `<button onclick="viewAsUser('${u.id}', '${escapeHtml(u.username)}')" class="btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;" title="View User's Contacts">👁️ View</button>` 
             : ''}
-          
           ${u.id !== currentUser.id ? 
             `<button onclick="deleteUser('${u.id}')" class="btn-delete-user" title="Delete User">🗑️</button>` 
             : '<span style="color:#999; font-size:0.85rem; font-style:italic;">(You)</span>'}
